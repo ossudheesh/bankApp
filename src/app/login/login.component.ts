@@ -1,3 +1,4 @@
+import { variable } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  //======== event binding using $event========
+  //======== one way event binding using $event========
 
   // acnoChange(event: any) {
   //   this.accNo = event.target.value
@@ -56,9 +57,33 @@ export class LoginComponent implements OnInit {
   //   }
   // }
 
-  login(ac:any,pw:any) {
-    let acno = ac.value
-    let pwd= pw.value
+  // ================ one way event binding - using template referencing variable ===============
+
+  // login(ac:any,pw:any) {
+  //   let acno = ac.value
+  //   let pwd= pw.value
+  //   let db=this.database
+
+  //   if(acno in db){
+  //     if(pwd==db[acno]["password"]){
+  //       alert('Login Successfull')
+  //     }
+  //     else{
+  //       alert('Password Error')
+  //     }
+  //   }
+  //   else{
+  //     alert('Invalid User')
+  //   }
+  // }
+
+
+
+  // ===== using two way event binding - using ngModel ======
+
+  login() {
+    let acno = this.accNo
+    let pwd= this.pwd
     let db=this.database
 
     if(acno in db){
