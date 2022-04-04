@@ -22,21 +22,43 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  acnoChange(event: any) {
-    this.accNo = event.target.value
-    // console.log(this.accNo);
-
-  }
-  pwdChange(event: any) {
-    this.pwd = event.target.value
-    // console.log(this.pwd);
-
-  }
 
 
-  login() {
-    let acno = this.accNo
-    let pwd= this.pwd
+  //======== event binding using $event========
+
+  // acnoChange(event: any) {
+  //   this.accNo = event.target.value
+  //   // console.log(this.accNo);
+
+  // }
+  // pwdChange(event: any) {
+  //   this.pwd = event.target.value
+  //   // console.log(this.pwd);
+
+  // }
+
+
+  // login() {
+  //   let acno = this.accNo
+  //   let pwd= this.pwd
+  //   let db=this.database
+
+  //   if(acno in db){
+  //     if(pwd==db[acno]["password"]){
+  //       alert('Login Successfull')
+  //     }
+  //     else{
+  //       alert('Password Error')
+  //     }
+  //   }
+  //   else{
+  //     alert('Invalid User')
+  //   }
+  // }
+
+  login(ac:any,pw:any) {
+    let acno = ac.value
+    let pwd= pw.value
     let db=this.database
 
     if(acno in db){
