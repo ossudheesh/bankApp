@@ -14,12 +14,12 @@
 
             </div>
             <div class="card-body">
-                <form (ngSubmit)="register()">
+                <form [formGroup]="registerForm"  (ngSubmit)="register()">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="uname" [(ngModel)]="uname" class="form-control" placeholder="Username"
+                        <input type="text" formControlName="uname"  class="form-control" placeholder="Username"
                             id="login_uname" required>
 
                     </div>
@@ -27,7 +27,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="accno" [(ngModel)]="accNo" class="form-control"
+                        <input type="text" name="accno" formControlName="accNo" class="form-control"
                             placeholder="Account Number" id="login_accno" required>
 
                     </div>
@@ -35,7 +35,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" name="pwd" [(ngModel)]="pwd" class="form-control" placeholder="password"
+                        <input type="password" name="pwd" formControlName="pwd" class="form-control" placeholder="password"
                             id="login_password" required>
                     </div>
 

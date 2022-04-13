@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 
@@ -9,21 +10,25 @@ import { DataService } from '../services/data.service';
 })
 export class RegisterComponent implements OnInit {
 
-  uname=''
-  accNo=''
-  pwd=''
-  constructor(private db:DataService,private router:Router) { }
+  // registration model
+  registerForm=this.fb.group({
+    uname:[''],
+    accNo:[''],
+    pwd:['']
+  })
+
+  constructor(private db: DataService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
 
-  register(){
-    let uname=this.uname
-    let accNo=this.accNo
-    let pwd=this.pwd
-    const result=this.db.register(uname,accNo,pwd)
-    result?this.router.navigateByUrl(''):alert('User already exists ')
+  register() {
+    let uname = this.registerForm.value.uname
+    let accNo = this.registerForm.value.accNo
+    let pwd = this.registerForm.value.pwd
+    const result = this.db.register(uname, accNo, pwd)
+    result ? this.router.navigateByUrl('') : alert('User already exists ')
   }
 
 }

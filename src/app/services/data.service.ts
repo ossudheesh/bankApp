@@ -25,9 +25,40 @@ export class DataService {
         balance: 0
       }
       console.log(this.database);
-      
+
       return true
     }
 
   }
+  login(acno: any, password: any) {
+
+
+
+    if (acno in this.database) {
+      if (password == this.database[acno]["password"]) {
+        // alert('Login Successfull')
+        return true
+      }
+      else {
+        alert('Password Error')
+        return false
+      }
+    }
+    else {
+      alert('Invalid User')
+      return false
+    }
+  }
+
+  deposit(acc: any, amount: any) {
+    this.database[acc]['balance'] += amount
+    return this.database[acc]['balance']
+  }
+  withdraw(acc: any, amount: any) {
+    if (this.database[acc]['balance'] >= amount) {
+      this.database[acc]['balance'] -= amount
+      return this.database[acc]['balance']
+    }
+  }
 }
+

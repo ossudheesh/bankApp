@@ -82,19 +82,21 @@ export class LoginComponent implements OnInit {
   login() {
     let acno = this.accNo
     let pwd= this.pwd
-    let db=this.db.database
+    // let db=this.db.database
+    const result=this.db.login(acno,pwd)
+    result?this.router.navigateByUrl('dashboard'):alert('login failed')
 
-    if(acno in db){
-      if(pwd==db[acno]["password"]){
-        // alert('Login Successfull')
-        this.router.navigateByUrl('dashboard')
-      }
-      else{
-        alert('Password Error')
-      }
-    }
-    else{
-      alert('Invalid User')
-    }
+    // if(acno in db){
+    //   if(pwd==db[acno]["password"]){
+    //     // alert('Login Successfull')
+    //     this.router.navigateByUrl('dashboard')
+    //   }
+    //   else{
+    //     alert('Password Error')
+    //   }
+    // }
+    // else{
+    //   alert('Invalid User')
+    // }
   }
 }
