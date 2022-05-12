@@ -13,23 +13,34 @@ export class RegisterComponent implements OnInit {
   // registration model
   registerForm = this.fb.group({
     uname: ['', [Validators.required, Validators.pattern('[a-zA-Z]*')]],
-    accNo: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-    pwd: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
+    acno: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    password: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
   })
 
-  constructor(private db: DataService, private router: Router, private fb: FormBuilder) { }
+  constructor(private ds: DataService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
 
   register() {
+    
     let uname = this.registerForm.value.uname
-    let accNo = this.registerForm.value.accNo
-    let pwd = this.registerForm.value.pwd
+    let acno = this.registerForm.value.acno
+    let password = this.registerForm.value.password
     if (this.registerForm.valid) {
-      const result = this.db.register(uname, accNo, pwd)
-      result ? this.router.navigateByUrl('') : alert('User already exists ')
+      this.ds.register(uname, acno, password)
+        .subscribe((result: any) => {
+          if (result) {
+            alert(result.message)
+            this.router.navigateByUrl("")
+          }
+        },
+        (result)=>{
+          alert(result.error.message)
+        }
+        )
+
     }
     else {
       alert('invalid form')

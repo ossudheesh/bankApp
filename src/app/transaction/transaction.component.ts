@@ -14,15 +14,27 @@ export class TransactionComponent implements OnInit {
   balance:any
 
   constructor(private ds:DataService, private router:Router) {
-    this.acno=this.ds.currentAccNo
-    this.balance=this.ds.getBalance(this.acno)
-    this.transaction=this.ds.transaction(this.acno)
+    this.acno= JSON.parse(localStorage.getItem('currentAccNo') || '')
+    
+    // this.balance=this.ds.getBalance(this.acno)
+    this.ds.transaction(this.acno)
+    .subscribe((result:any)=>{
+      if(result){
+        // console.log(result.message);
+        
+        this.transaction=result.message
+      }
+    },
+    (result)=>{
+      alert(result.error.message)
+    }
+    )
    }
 
   ngOnInit(): void {
-    if(!localStorage.getItem("currentAccNo")){
-      this.router.navigateByUrl("")
-    }
+    // if(!localStorage.getItem("currentAccNo")){
+    //   this.router.navigateByUrl("")
+    // }
   }
 
 }

@@ -29,22 +29,22 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="accno" formControlName="accNo" class="form-control"
-                            placeholder="Account Number" id="login_accno" required>
+                        <input type="text" name="acno" formControlName="acno" class="form-control"
+                            placeholder="Account Number" id="login_acno" required>
 
                     </div>
                     <div class="mb-3" style="color:red"
-                        *ngIf="(this.registerForm.get('accNo')?.touched)&&(this.registerForm.get('accNo')?.dirty)&&(this.registerForm.get('accNo')?.errors)">
+                        *ngIf="(this.registerForm.get('acno')?.touched)&&(this.registerForm.get('acno')?.dirty)&&(this.registerForm.get('acno')?.errors)">
                         Invalid Account Number</div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" name="pwd" formControlName="pwd" class="form-control"
+                        <input type="password" name="password" formControlName="password" class="form-control"
                             placeholder="password" id="login_password" required>
                     </div>
                     <div class="mb-3" style="color:red"
-                        *ngIf="(this.registerForm.get('pwd')?.touched)&&(this.registerForm.get('pwd')?.dirty)&&(this.registerForm.get('pwd')?.errors)">
+                        *ngIf="(this.registerForm.get('password')?.touched)&&(this.registerForm.get('password')?.dirty)&&(this.registerForm.get('password')?.errors)">
                         Invalid password</div>
 
                     <div class="form-group">

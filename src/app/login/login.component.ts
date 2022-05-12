@@ -12,16 +12,16 @@ import { DataService } from '../services/data.service';
 export class LoginComponent implements OnInit {
   msg = "Your Perfect Banking Partner"   //String Interpolation syntx: {{variable-name}} in html page
   acc = "account number please"  //property binding example: [placeholder]="acc"
-  // accNo = ""
-  // pwd = ""
+  // acno = ""
+  // password = ""
 
   loginForm = this.fb.group({
-    accNo: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-    pwd: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
+    acno: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+    password: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9]*')]]
   })
-  
 
-  constructor(private router:Router,private db:DataService,private fb:FormBuilder) { }
+
+  constructor(private router: Router, private ds: DataService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
   }
@@ -30,24 +30,24 @@ export class LoginComponent implements OnInit {
   //======== one way event binding using $event========
 
   // acnoChange(event: any) {
-  //   this.accNo = event.target.value
-  //   // console.log(this.accNo);
+  //   this.acno = event.target.value
+  //   // console.log(this.acno);
 
   // }
-  // pwdChange(event: any) {
-  //   this.pwd = event.target.value
-  //   // console.log(this.pwd);
+  // passwordChange(event: any) {
+  //   this.password = event.target.value
+  //   // console.log(this.password);
 
   // }
 
 
   // login() {
-  //   let acno = this.accNo
-  //   let pwd= this.pwd
+  //   let acno = this.acno
+  //   let password= this.password
   //   let db=this.database
 
   //   if(acno in db){
-  //     if(pwd==db[acno]["password"]){
+  //     if(password==db[acno]["password"]){
   //       alert('Login Successfull')
   //     }
   //     else{
@@ -63,11 +63,11 @@ export class LoginComponent implements OnInit {
 
   // login(ac:any,pw:any) {
   //   let acno = ac.value
-  //   let pwd= pw.value
+  //   let password= pw.value
   //   let db=this.database
 
   //   if(acno in db){
-  //     if(pwd==db[acno]["password"]){
+  //     if(password==db[acno]["password"]){
   //       alert('Login Successfull')
   //     }
   //     else{
@@ -84,19 +84,30 @@ export class LoginComponent implements OnInit {
   // ===== using two way event binding - using ngModel ======
 
   login() {
-    let acno = this.loginForm.value.accNo
-    let pwd= this.loginForm.value.accNo
+    let acno = this.loginForm.value.acno
+    let password = this.loginForm.value.acno
     // let db=this.db.database
     if (this.loginForm.valid) {
-    const result=this.db.login(acno,pwd)
-    result?this.router.navigateByUrl('dashboard'):alert('login failed')
+      this.ds.login(acno, password)
+        .subscribe((result: any) => {
+          if (result) {
+            localStorage.setItem('currentAccNo',JSON.stringify(result.currentAccNo))
+            localStorage.setItem('currentUser',JSON.stringify(result.currentUser))
+            localStorage.setItem('token',JSON.stringify(result.token))
+            alert(result.message)
+            this.router.navigateByUrl('dashboard')
+          }
+        },
+        (result)=>{
+          alert(result.error.message)
+        })
     }
     else {
       alert('invalid form')
     }
 
     // if(acno in db){
-    //   if(pwd==db[acno]["password"]){
+    //   if(password==db[acno]["password"]){
     //     // alert('Login Successfull')
     //     this.router.navigateByUrl('dashboard')
     //   }

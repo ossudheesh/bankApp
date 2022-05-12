@@ -16,9 +16,9 @@ export class DashboardComponent implements OnInit {
   // wacc = ''
   // wpwd = ''
   // wamount = ''
-  user:any
-  loginDate:any
-  acno:any
+  user: any
+  loginDate: any
+  acno: any
 
   depositForm = this.fb.group({
     accNo: ['', [Validators.required, Validators.pattern('[0-9]*')]],
@@ -31,30 +31,34 @@ export class DashboardComponent implements OnInit {
     wamount: ['', [Validators.required, Validators.pattern('[0-9]*')]]
   })
 
-  constructor(private ds: DataService, private fb: FormBuilder, private router:Router) {
-    this.user=this.ds.currentUser
-    this.loginDate=new Date()
-   }
+  constructor(private ds: DataService, private fb: FormBuilder, private router: Router) {
+    this.user = JSON.parse(localStorage.getItem('currentUser') || '')
+    this.loginDate = new Date()
+  }
   ngOnInit(): void {
-    if(!localStorage.getItem("currentAccNo")){
-      this.router.navigateByUrl("")
-    }
+    // if(!localStorage.getItem("currentAccNo")){
+    //   this.router.navigateByUrl("")
+    // }
   }
   deposit() {
     let acc = this.depositForm.value.accNo
     let pwd = this.depositForm.value.pwd
     let amount = parseInt(this.depositForm.value.amount)
     if (this.depositForm.valid) {
-      const auth = this.ds.login(acc, pwd)
-      if (auth) {
-        const result = this.ds.deposit(acc, amount)
-        alert(amount + ' credited on ' + acc + ', Balance:' + result)
-      }
+      this.ds.deposit(acc, pwd, amount)
+        .subscribe((result: any) => {
+          if (result) {
+            alert(result.message)
+          }
+        },
+          (result) => {
+            alert(result.error.message)
+          }
+        )
     }
     else {
       alert('invalid form')
     }
-
 
   }
   withdraw() {
@@ -63,29 +67,43 @@ export class DashboardComponent implements OnInit {
     let amount = parseInt(this.withdrawForm.value.wamount)
     if (this.withdrawForm.valid) {
 
-      const auth = this.ds.login(acc, pwd)
-      if (auth) {
-        const result = this.ds.withdraw(acc, amount)
-        result ? alert(amount + ' is withdrew from ' + acc + ' , Balance:' + result) : alert('Insufficient Balance')
-
-      }
+      this.ds.withdraw(acc, pwd, amount)
+        .subscribe((result: any) => {
+          if (result) {
+            alert(result.message)
+          }
+        },
+          (result) => {
+            alert(result.error.message)
+          }
+        )
     }
     else {
       alert('invalid form')
     }
   }
-  logout(){
+  logout() {
     localStorage.removeItem("currentAccNo")
     localStorage.removeItem("currentUser")
     this.router.navigateByUrl("")
   }
-  deleteFromParent(){
-    this.acno=(localStorage.getItem("currentAccNo"))
+  deleteFromParent() {
+    this.acno = (localStorage.getItem("currentAccNo"))
   }
-  onCancel(){
-    this.acno=""
+  onCancel() {
+    this.acno = ""
   }
-  onDelete(event:any){
-    alert('Account Number'+event)
+  onDelete(event: any) {
+    this.ds.onDelete(event)
+      .subscribe((result: any) => {
+        if (result) {
+          alert(result.message)
+          this.router.navigateByUrl("")
+        }
+      },
+      (result:any)=>{
+        alert(result.error.message)
+      }
+      )
   }
 }
