@@ -93,17 +93,19 @@ export class DashboardComponent implements OnInit {
   onCancel() {
     this.acno = ""
   }
-  onDelete(event: any) {
-    this.ds.onDelete(event)
+  onDelete() {
+    this.acno = JSON.parse(localStorage.getItem("currentAccNo")||'')
+
+    this.ds.onDelete(this.acno)
       .subscribe((result: any) => {
         if (result) {
           alert(result.message)
           this.router.navigateByUrl("")
         }
       },
-      (result:any)=>{
-        alert(result.error.message)
-      }
+        (result: any) => {
+          alert(result.error.message)
+        }
       )
   }
 }

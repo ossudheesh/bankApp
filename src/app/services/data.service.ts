@@ -110,7 +110,6 @@ export class DataService {
   //   return this.database[acno].balance
   // }
   onDelete(acno: any) {
-    
     return this.http.delete('http://localhost:3000/onDelete/' + acno, this.getOptions())
   }
 }
